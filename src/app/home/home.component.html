@@ -10,44 +10,33 @@
       appearance="fill"
     >
       <mat-label>Rechercher</mat-label>
-      <input
-        matInput
-        placeholder="Rechercher"
-        type="text"
-        [(ngModel)]="chercher"
-      />
+      <input matInput placeholder="Rechercher" type="text" />
     </mat-form-field>
   </div>
-  <div
-    *ngFor="let quiz of quizz | filter: chercher; let i = index"
-    class="col-12 mb-3"
-  >
+  <div *ngFor="let quiz of quizz; let k = index" class="col-8 mb-3">
     <div class="border container rounded-3 bg-white">
       <div>
         <div class="ml-3 container bg-white">
           <h1>{{ quiz.titre }}</h1>
         </div>
-        <div class="ml-3 container bg-white">
-          <h3>{{ quiz.question }}</h3>
-        </div>
-        <div class="bg-white rounded">
-          <div class="input-group row">
-            <form action="">
-              <div>
-                <input type="radio" id="rep1" name="rep" value="rep1" />
-                <label for="rep2">{{ quiz.reponse1 }}</label>
-              </div>
-              <div>
-                <input type="radio" id="rep2" name="rep" value="rep2" />
-                <label for="rep1">{{ quiz.reponse2 }}</label>
-              </div>
-              <div>
-                <input type="radio" id="rep3" name="rep" value="rep3" />
-                <label for="rep3">{{ quiz.reponse3 }}</label>
-              </div>
-            </form>
+        <div
+          class="ml-3 container bg-white"
+          *ngFor="let quest of quiz.questions; let i = index"
+        >
+          <h3>{{ quest.question }}</h3>
+          <div class="bg-white rounded">
+            <div
+              class="input-group row"
+              *ngFor="let rep of quest.reponses; let j = index"
+            >
+              <form>
+                <input type="radio" />
+                <label for="rep2">{{ rep.reponse }}</label>
+              </form>
+            </div>
           </div>
         </div>
+
         <button class="btn-success">valider</button>
       </div>
     </div>

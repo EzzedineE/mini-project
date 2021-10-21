@@ -23,83 +23,106 @@
         </div>
         <label for="floatingInput">Titre de Quizz</label>
       </div>
+      <!-- ************************************************************************************* -->
 
-      <div class="form-floating my-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder=""
-          formControlName="question"
-        />
-        <div
-          *ngIf="
-            quizz.controls.question.invalid && quizz.controls.question.touched
-          "
-        >
-          <small
-            *ngIf="quizz.controls.question.errors?.required"
-            class="text-danger text-start"
-            >question required</small
-          >
-        </div>
-        <label for="floatingInput">question de Quizz</label>
-      </div>
-      <!-- formcontrol bonne reponse-->
-      <h2 *ngIf="quizz.controls.bonnereponse.value !== null" class="text-start">
-        La bonne reponse est :{{
-          getOneReponse(quizz.controls.bonnereponse.value)
-        }}
-      </h2>
-      <!-- formarray reponse -->
       <div>
-        <button
-          class="btn btn-primary w-100"
-          type="button"
-          (click)="addReponse()"
-        >
-          ajouter reponse
+        <button class="w-100 btn-primary" type="button" (click)="addQuestion()">
+          Ajouter question
         </button>
-        <div
-          class="form-floating my-3"
-          formArrayName="reponses"
-          *ngFor="let reponse of reponses.controls; let i = index"
-        >
-          <div class="input-group">
-            <div class="input-group-text">
-              <input
-                class="form-check-input mt-0"
-                type="radio"
-                aria-label="Radio button for following text
-            input"
-                name="reponse"
-                (change)="bonneReponse(i)"
-                [disabled]="reponses.at(i).invalid"
-              />
-            </div>
+      </div>
+      <!-- formarray -->
+      <div
+        formArrayName="questions"
+        *ngFor="let quest of questions().controls; let i = index"
+      >
+        <!-- formgroup -->
+        <div [formGroupName]="i">
+          <!-- formcontrol question-->
+          <div class="form-floating my-3">
             <input
               type="text"
               class="form-control"
-              aria-label="Text input with radio button"
-              [formControlName]="i"
-              placeholder="Reponse {{ i + 1 }}"
+              placeholder=""
+              formControlName="question"
             />
-            <button
-              class="btn btn-danger w-25"
-              type="button"
-              (click)="supprimerReponse(i)"
+            <div
+              *ngIf="
+                getOneQuestions(i).controls.question.invalid &&
+                getOneQuestions(i).controls.question.touched
+              "
             >
-              delete
-            </button>
+              <small
+                *ngIf="getOneQuestions(i).controls.question.errors?.required"
+                class="text-danger text-start"
+                >question required</small
+              >
+            </div>
+            <label for="floatingInput">question de Quizz</label>
           </div>
-          <div *ngIf="reponses.at(i).invalid && reponses.at(i).touched">
-            <small
-              *ngIf="reponses.at(i).errors?.required"
-              class="text-danger text-start"
-              >reponse required</small
+          <!-- formcontrol bonne reponse-->
+          <h2
+            *ngIf="getOneQuestions(i).controls.bonnereponse.value !== null"
+            class="text-start"
+          >
+            La bonne reponse est :{{
+              getOneReponse(i, getOneQuestions(i).controls.bonnereponse.value)
+            }}
+          </h2>
+          <!-- formarray reponse -->
+          <div>
+            <button
+              class="btn btn-primary w-100"
+              type="button"
+              (click)="addReponse(i)"
             >
+              ajouter reponse
+            </button>
+            <div
+              class="form-floating my-3"
+              formArrayName="reponses"
+              *ngFor="let reponse of reponses(i).controls; let j = index"
+            >
+              <div class="input-group">
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    aria-label="Radio button for following text
+        input"
+                    [name]="i"
+                    (change)="bonneReponse(i, j)"
+                    [disabled]="reponse.invalid"
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Text input with radio button"
+                  [formControlName]="j"
+                  placeholder="reponse {{ j + 1 }}"
+                />
+                <button
+                  class="btn btn-danger w-25"
+                  type="button"
+                  (click)="removeReponse(i, j)"
+                >
+                  delete
+                </button>
+              </div>
+              <div *ngIf="reponse.invalid && reponse.touched">
+                <small
+                  *ngIf="reponse.errors?.required"
+                  class="text-danger text-start"
+                  >reponse required</small
+                >
+              </div>
+            </div>
           </div>
         </div>
+        <hr class="my-4" />
       </div>
+      <!-- ***************************************************** -->
+
       <!-- button quizz -->
       <hr class="my-4" />
       <button

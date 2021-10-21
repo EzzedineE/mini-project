@@ -13,5 +13,6 @@ export class QuizzService {
   getquizz() {
     return JSON.parse(localStorage.getItem('quizz') || '[]');
   }
+
   constructor() {}
 }

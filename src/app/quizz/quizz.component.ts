@@ -12,24 +12,18 @@ import { QuizzService } from '../service/quizz.service';
 })
 export class QuizzComponent implements OnInit {
   quizz: FormGroup;
+  questions2: FormGroup;
+  verifbonnereponse() {
+    for (let i = 0; i < this.questions().length; i++) {
+      if (this.getOneQuestions(i).get('bonnereponse')?.value == null) {
+        return false;
+      }
+    }
+    return true;
+  }
 
-  get reponses() {
-    return this.quizz.get('reponses') as FormArray;
-  }
-  addReponse() {
-    this.reponses.push(new FormControl('', [Validators.required]));
-  }
-  getOneReponse(i: number) {
-    return this.reponses.at(i).value;
-  }
-  bonneReponse(i: number) {
-    this.quizz.get('bonnereponse')?.setValue(i);
-  }
-  supprimerReponse(i: number) {
-    this.reponses.controls.splice(i, 1);
-  }
   add() {
-    if (this.quizz.controls.bonnereponse.value !== null) {
+    if (this.verifbonnereponse()) {
       this.quizzservice.add(this.quizz.value);
       this.router.navigate(['/']);
     } else {
@@ -37,6 +31,36 @@ export class QuizzComponent implements OnInit {
     }
   }
 
+  questions() {
+    return this.quizz.get('questions') as FormArray;
+  }
+  getOneQuestions(i: number) {
+    return this.questions().at(i) as FormGroup;
+  }
+  addQuestion() {
+    this.questions().push(
+      new FormGroup({
+        question: new FormControl('', [Validators.required]),
+        bonnereponse: new FormControl(null),
+        reponses: new FormArray([new FormControl('', [Validators.required])]),
+      })
+    );
+  }
+  reponses(i: number) {
+    return this.getOneQuestions(i).get('reponses') as FormArray;
+  }
+  addReponse(i: number) {
+    this.reponses(i).push(new FormControl('', [Validators.required]));
+  }
+  removeReponse(i: number, j: number) {
+    this.reponses(i).removeAt(j);
+  }
+  bonneReponse(i: number, j: number) {
+    this.getOneQuestions(i).patchValue({ bonnereponse: j });
+  }
+  getOneReponse(i: number, j: number) {
+    return this.reponses(i).at(j).value;
+  }
   constructor(
     private quizzservice: QuizzService,
     private router: Router,
@@ -45,14 +69,13 @@ export class QuizzComponent implements OnInit {
   ngOnInit(): void {
     this.quizz = new FormGroup({
       titre: new FormControl('', [Validators.required]),
-      question: new FormControl('', [Validators.required]),
-      bonnereponse: new FormControl(null),
-      reponses: new FormArray([new FormControl('', [Validators.required])]),
+      questions: new FormArray([
+        new FormGroup({
+          question: new FormControl('', [Validators.required]),
+          bonnereponse: new FormControl(null),
+          reponses: new FormArray([new FormControl('', [Validators.required])]),
+        }),
+      ]),
     });
-  }
-
-  errorReponse(i: number) {
-    const oneReponse = this.reponses.at(i);
-    return oneReponse.touched && oneReponse.hasError('required');
   }
 }

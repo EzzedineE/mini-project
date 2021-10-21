@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { Quizz } from '../models/quizz';
 import { QuizzService } from '../service/quizz.service';
 
@@ -9,19 +9,17 @@ import { QuizzService } from '../service/quizz.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  chercher: string = '';
   quizz: any;
   QuizzService: any;
 
-  delete(i: number) {
-    if (confirm('voulez vous supprimer')) {
-      this.quizz.splice(i, 1);
-      localStorage.setItem('localArticle', JSON.stringify(this.quizz));
-    }
+  reponseValider() {
+    this.quizz = this.quizzservice.getquizz();
+    for (let i = 0; i < this.quizz.length; i++) {}
   }
 
   constructor(private quizzservice: QuizzService) {}
   ngOnInit(): void {
+    console.log(this.quizz);
     this.quizz = this.quizzservice.getquizz();
   }
 }
