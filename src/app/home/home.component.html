@@ -13,31 +13,46 @@
       <input matInput placeholder="Rechercher" type="text" />
     </mat-form-field>
   </div>
-  <div *ngFor="let quiz of quizz; let k = index" class="col-8 mb-3">
+  <div *ngFor="let quiz of quizz; let k = index" class="container col-12 mb-3">
     <div class="border container rounded-3 bg-white">
       <div>
         <div class="ml-3 container bg-white">
-          <h1>{{ quiz.titre }}</h1>
+          <h1 class="text-danger">{{ quiz.titre }}</h1>
+          <hr />
         </div>
         <div
           class="ml-3 container bg-white"
           *ngFor="let quest of quiz.questions; let i = index"
         >
-          <h3>{{ quest.question }}</h3>
+          <div>
+            <h2 class="">{{ quest.question }}</h2>
+          </div>
           <div class="bg-white rounded">
             <div
               class="input-group row"
               *ngFor="let rep of quest.reponses; let j = index"
             >
-              <form>
-                <input type="radio" />
-                <label for="rep2">{{ rep.reponse }}</label>
-              </form>
+              <div>
+                <input
+                  class="mx-5"
+                  type="radio"
+                  [id]="rep"
+                  [name]="quest.question"
+                />
+                <label for="rep"> {{ rep }}</label>
+              </div>
+              <div *ngIf="quest.bonnereponse.touched">
+                <small
+                  *ngIf="quest.bonnereponse == j"
+                  class="text-danger text-start"
+                  >titre required</small
+                >
+              </div>
             </div>
           </div>
         </div>
 
-        <button class="btn-success">valider</button>
+        <button class="btn-success" (click)="valid()">valider</button>
       </div>
     </div>
   </div>

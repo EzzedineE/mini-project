@@ -11,10 +11,20 @@ import { QuizzService } from '../service/quizz.service';
 export class HomeComponent implements OnInit {
   quizz: any;
   QuizzService: any;
-
+  x: number;
   reponseValider() {
     this.quizz = this.quizzservice.getquizz();
     for (let i = 0; i < this.quizz.length; i++) {}
+  }
+
+  valid() {
+    this.quizz = this.quizzservice.getquizz();
+    for (let y = 0; y < this.quizz.questions.length; y++) {
+      if (this.quizz.questions.bonnereponse.value !== null) {
+        this.x = this.x + 1;
+        console.log(this.x);
+      }
+    }
   }
 
   constructor(private quizzservice: QuizzService) {}

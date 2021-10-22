@@ -25,11 +25,7 @@
       </div>
       <!-- ************************************************************************************* -->
 
-      <div>
-        <button class="w-100 btn-primary" type="button" (click)="addQuestion()">
-          Ajouter question
-        </button>
-      </div>
+      <div></div>
       <!-- formarray -->
       <div
         formArrayName="questions"
@@ -60,23 +56,18 @@
             <label for="floatingInput">question de Quizz</label>
           </div>
           <!-- formcontrol bonne reponse-->
-          <h2
+          <div
             *ngIf="getOneQuestions(i).controls.bonnereponse.value !== null"
-            class="text-start"
+            class="border rounded px-2"
           >
-            La bonne reponse est :{{
-              getOneReponse(i, getOneQuestions(i).controls.bonnereponse.value)
-            }}
-          </h2>
+            <h4 class="text-start">
+              La bonne reponse est :{{
+                getOneReponse(i, getOneQuestions(i).controls.bonnereponse.value)
+              }}
+            </h4>
+          </div>
           <!-- formarray reponse -->
           <div>
-            <button
-              class="btn btn-primary w-100"
-              type="button"
-              (click)="addReponse(i)"
-            >
-              ajouter reponse
-            </button>
             <div
               class="form-floating my-3"
               formArrayName="reponses"
@@ -118,9 +109,23 @@
               </div>
             </div>
           </div>
+          <button
+            class="btn btn-primary d-flex justify-content-start my-2"
+            type="button"
+            (click)="addReponse(i)"
+          >
+            Ajouter reponse
+          </button>
         </div>
         <hr class="my-4" />
       </div>
+      <button
+        class="btn btn-primary d-flex justify-content-start my-2"
+        type="button"
+        (click)="addQuestion()"
+      >
+        Ajouter question
+      </button>
       <!-- ***************************************************** -->
 
       <!-- button quizz -->
