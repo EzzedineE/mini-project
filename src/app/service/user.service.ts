@@ -43,4 +43,8 @@ export class UserService {
     }
     return null;
   }
+  // deconection
+  logout() {
+    localStorage.removeItem('userConecter');
+  }
 }

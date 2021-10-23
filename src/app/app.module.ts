@@ -33,7 +33,9 @@ import { FilterPipe } from './pipes/filter.pipe';
     ReactiveFormsModule,
     BrowserModule,
     CommonModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+    }),
     MatInputModule,
     MatFormFieldModule,
   ],

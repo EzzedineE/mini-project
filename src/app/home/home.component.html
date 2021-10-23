@@ -10,10 +10,18 @@
       appearance="fill"
     >
       <mat-label>Rechercher</mat-label>
-      <input matInput placeholder="Rechercher" type="text" />
+      <input
+        matInput
+        placeholder="Rechercher"
+        type="text"
+        [(ngModel)]="rechercher"
+      />
     </mat-form-field>
   </div>
-  <div *ngFor="let quiz of quizz; let k = index" class="container col-12 mb-3">
+  <div
+    *ngFor="let quiz of quizz | filter: rechercher; let k = index"
+    class="container col-12 mb-3"
+  >
     <div class="border container rounded-3 bg-white">
       <div>
         <div class="ml-3 container bg-white">
@@ -36,23 +44,23 @@
                 <input
                   class="mx-5"
                   type="radio"
-                  [id]="rep"
-                  [name]="quest.question"
+                  [name]="k + '/' + i"
+                  (change)="reponsevalider(k, i, j)"
+                  [disabled]="quizz[k].answered || k !== numQuizz"
                 />
                 <label for="rep"> {{ rep }}</label>
-              </div>
-              <div *ngIf="quest.bonnereponse.touched">
-                <small
-                  *ngIf="quest.bonnereponse == j"
-                  class="text-danger text-start"
-                  >titre required</small
-                >
               </div>
             </div>
           </div>
         </div>
 
-        <button class="btn-success" (click)="valid()">valider</button>
+        <button
+          class="btn btn-success my-4"
+          [disabled]="quizz[k].answered || k !== numQuizz"
+          (click)="valid(k)"
+        >
+          valider
+        </button>
       </div>
     </div>
   </div>

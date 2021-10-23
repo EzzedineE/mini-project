@@ -5,11 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
   transform(array: any[], chercher: any): any[] {
-    return array;
-    // .filter(
-    // (element) =>
-    // element.titre.toLowerCase().includes(chercher.toLowerCase()) ||
-    // element.question.toLowerCase().includes(chercher.toLowerCase())
-    // );
+    return array.filter((element) =>
+      element.titre.toLowerCase().includes(chercher.toLowerCase())
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Quizz } from '../models/quizz';
 import { QuizzService } from '../service/quizz.service';
 
@@ -9,27 +10,36 @@ import { QuizzService } from '../service/quizz.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  quizz: any;
-  QuizzService: any;
-  x: number;
-  reponseValider() {
-    this.quizz = this.quizzservice.getquizz();
-    for (let i = 0; i < this.quizz.length; i++) {}
+  quizz: Quizz[];
+  rechercher: string = '';
+  numQuizz: number;
+  reponsevalider(k: number, i: number, j: number) {
+    this.quizz[k].questions[i].userReponse = j;
   }
+  valid(k: number) {
+    let questions = this.quizz[k].questions;
+    let note = 0;
 
-  valid() {
-    this.quizz = this.quizzservice.getquizz();
-    for (let y = 0; y < this.quizz.questions.length; y++) {
-      if (this.quizz.questions.bonnereponse.value !== null) {
-        this.x = this.x + 1;
-        console.log(this.x);
+    for (let i = 0; i < questions.length; i++) {
+      if (questions[i].userReponse == undefined) {
+        this.toastr.error(`valider une reponse pour la question : ${i + 1}`);
+
+        return;
+      } else if (questions[i].userReponse == questions[i].bonnereponse) {
+        note += 1;
       }
+      this.quizz[k].answered = true;
     }
+    this.toastr.success(note + '/' + questions.length);
+    this.numQuizz += 1;
   }
 
-  constructor(private quizzservice: QuizzService) {}
+  constructor(
+    private quizzservice: QuizzService,
+    private toastr: ToastrService
+  ) {}
   ngOnInit(): void {
-    console.log(this.quizz);
     this.quizz = this.quizzservice.getquizz();
+    this.numQuizz = 0;
   }
 }
