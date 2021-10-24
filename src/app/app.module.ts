@@ -14,6 +14,8 @@ import { QuizzComponent } from './quizz/quizz.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FilterPipe } from './pipes/filter.pipe';
+import { GestionUtilisateurComponent } from './gestion-utilisateur/gestion-utilisateur.component';
+import { ModifierComponent } from './modifier/modifier.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     HomeComponent,
     QuizzComponent,
     FilterPipe,
+    GestionUtilisateurComponent,
+    ModifierComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +39,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     CommonModule,
     ToastrModule.forRoot({
       preventDuplicates: true,
+      timeOut: 1000,
+      progressBar: true,
     }),
     MatInputModule,
     MatFormFieldModule,

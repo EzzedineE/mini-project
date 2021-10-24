@@ -23,7 +23,7 @@ export class AdminGuard implements CanActivate {
     | UrlTree {
     return new Promise((resolve, reject) => {
       const user = this.services.getuser();
-      if (user.role == 'admin') {
+      if (user.role == 'user') {
         resolve(true);
       } else {
         this.router.navigate(['/']);

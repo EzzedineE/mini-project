@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
       this.services.setuser(login);
       this.router.navigate(['']);
     } else {
-      this.toastr.success('verrifier votre email ou votre mot de passe');
+      this.toastr.error('verrifier votre email ou votre mot de passe');
     }
   }
 

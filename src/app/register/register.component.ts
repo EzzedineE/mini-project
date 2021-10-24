@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../models/userModel';
 import { UserService } from '../service/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,16 +11,15 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   user = new FormGroup({
-    nom: new FormControl('ezzedine', [Validators.required]),
-    prenom: new FormControl('elechi', [Validators.required]),
-    email: new FormControl('ezzedine.elechi@gmail.com', [
+    nom: new FormControl('', [Validators.required]),
+    prenom: new FormControl('', [Validators.required]),
+    email: new FormControl('', [
       Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
       Validators.required,
     ]),
-    password: new FormControl('123456789', [Validators.required]),
-    address: new FormControl('105 impass el echi la marsa', [
-      Validators.required,
-    ]),
+    password: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    role: new FormControl('user'),
   });
 
   enregistrement() {
@@ -31,6 +29,7 @@ export class RegisterComponent implements OnInit {
       } else {
         const newUser = this.user.value;
         newUser.role = 'user';
+        newUser.resultats = [];
         this.services.ajoutUser(newUser);
         this.router.navigate(['login']);
       }
@@ -40,7 +39,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private services: UserService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
   ngOnInit(): void {}
 }
