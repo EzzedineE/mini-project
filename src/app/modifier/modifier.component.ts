@@ -29,6 +29,7 @@ export class ModifierComponent implements OnInit {
       const saveUser = this.userForm.value;
       saveUser.role = this.user.role;
       saveUser.resultats = [];
+      saveUser.moyenne = 0;
       if (this.i) {
         this.services.modifier(this.i, saveUser);
         let message = this.toastr.success('Modification valider').onHidden;

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Quizz } from '../models/quizz';
 import { Resultat } from '../models/resultat.model';
 import { User } from '../models/userModel';
 
@@ -16,6 +17,7 @@ export class UserService {
     }
     return false;
   }
+
   getOneUser(i: number) {
     const users = JSON.parse(localStorage.getItem('utilisateurs') || '[]');
     return users[i];
@@ -62,15 +64,53 @@ export class UserService {
     users.splice(i, 1, user);
     localStorage.setItem('utilisateurs', JSON.stringify(users));
   }
-
-  ajoutResultat(email: string, resultat: Resultat) {
+  verifQuizExist(resultats: Resultat[], quiz: Quizz): boolean {
+    for (let i = 0; i < resultats.length; i++) {
+      const resultat = resultats[i];
+      if (resultat.quiz.titre == quiz.titre) {
+        return true;
+      }
+    }
+    return false;
+  }
+  ajoutResultat(email: string, resultat: Resultat): boolean {
     const users = JSON.parse(localStorage.getItem('utilisateurs') || '[]');
     for (let i = 0; i < users.length; i++) {
       if (users[i].email == email) {
+        if (this.verifQuizExist(users[i].resultats, resultat.quiz)) {
+          return false;
+        }
+        const resultats = users[i].resultats;
+        let moy = 0;
+        for (let j = 0; j < resultats.length; j++) {
+          moy += resultats[j].note;
+        }
+        moy /= resultats.length;
+        users[i].moyenne = moy;
         users[i].resultats.push(resultat);
         break;
       }
     }
     localStorage.setItem('utilisateurs', JSON.stringify(users));
+    return true;
   }
+
+  // verifier email existant
+  // verifQuestion() {
+  //   const userConecter = JSON.parse(
+  //     localStorage.getItem('userConecter') || '[]'
+  //   );
+  //   const quizz = JSON.parse(localStorage.getItem('quizz') || '[]');
+  //   for (let j = 0; j < quizz.length; j++) {
+  //     for (let i = 0; i < userConecter.length; i++) {
+  //       if (
+  //         userConecter[i].resultats.quiz.questions.question ==
+  //         quizz[j].questions.question
+  //       ) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // }
 }

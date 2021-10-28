@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { ModifierComponent } from './modifier/modifier.component';
 import { QuizzComponent } from './quizz/quizz.component';
 import { RegisterComponent } from './register/register.component';
+import { ResultatComponent } from './resultat/resultat.component';
 
 const routes: Routes = [
   { path: 'register', component: RegisterComponent },
@@ -31,6 +32,11 @@ const routes: Routes = [
   {
     path: 'add',
     component: ModifierComponent,
+    canActivate: [GardeGuard, AdminGuard],
+  },
+  {
+    path: 'resultat',
+    component: ResultatComponent,
     canActivate: [GardeGuard, AdminGuard],
   },
 ];

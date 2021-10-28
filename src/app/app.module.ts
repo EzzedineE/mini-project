@@ -16,6 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FilterPipe } from './pipes/filter.pipe';
 import { GestionUtilisateurComponent } from './gestion-utilisateur/gestion-utilisateur.component';
 import { ModifierComponent } from './modifier/modifier.component';
+import { ResultatComponent } from './resultat/resultat.component';
+import { OrdrePipe } from './pipes/ordre.pipe';
+import { ExtensionPipe } from './pipes/extension.pipe';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { ModifierComponent } from './modifier/modifier.component';
     FilterPipe,
     GestionUtilisateurComponent,
     ModifierComponent,
+    ResultatComponent,
+    OrdrePipe,
+    ExtensionPipe,
   ],
   imports: [
     BrowserModule,

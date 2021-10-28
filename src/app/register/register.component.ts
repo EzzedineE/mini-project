@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
         const newUser = this.user.value;
         newUser.role = 'user';
         newUser.resultats = [];
+        newUser.moyenne = 0;
         this.services.ajoutUser(newUser);
         this.router.navigate(['login']);
       }
